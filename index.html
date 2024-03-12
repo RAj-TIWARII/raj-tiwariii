@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V O L T V O Y A G E</title>
+<style>
+  :root {
+    --dot-size: 2px; /* Adjust the size of the dots */
+    --dot-opacity: 0.3; /* Adjust the opacity of the dots */
+    --dot-distance: 40px; /* Adjust the distance between dots */
+  }
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(10, 10, 10);
+    overflow: hidden;
+    color: white; /* Set default text color */
+  }
+  .star {
+    position: absolute;
+    width: var(--dot-size);
+    height: var(--dot-size);
+    background-color: rgba(255, 255, 255, var(--dot-opacity));
+    transform: rotate(45deg); /* Rotate the dots by 45 degrees */
+  }
+  .star .circle {
+    width: var(--dot-size);
+    height: var(--dot-size);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, var(--dot-opacity));
+  }
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 160%; /* Adjusted width to be 60% wider */
+    height: 87px;
+    background-color: hsl(200, 50%, 33%); /* Set background color without transparency */
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 9999; /* Ensure the header is above the stars */
+  }
+  .header-text {
+    color: hsl(235, 28%, 69%); /* Darker color */
+    font-size: 34px; /* Slightly bigger font size */
+    margin-right: auto;
+    font-family: Impact, sans-serif; /* Specify Impact font */
+    padding: 8px 12px; /* Add padding around the name */
+    border-radius: 10px; /* Add border radius for curved corners */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+  }
+
+  /* Hover effect */
+  .header-text:hover {
+    background-color: rgba(74, 128, 167, 0.877); /* Light gray background on hover */
+  }
+
+  /* Additional text style */
+  .additional-text {
+    color: #ddd;
+    font-size: 40px; /* Original size */
+    font-weight: bold; /* Bold font */
+    font-family: "Lucida Console", Monaco, monospace; /* Specify Lucida Console font */
+    text-align: center;
+    margin-top: 270px; /* Adjust the margin as needed */
+    position: absolute; /* Positioning relative to the body */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    /* Uncomment the following line and adjust the value to change vertical position */
+    /* top: 50%; */
+    /* Uncomment the following line and adjust the value to change horizontal position */
+    /* left: 50%; */
+    /* Uncomment the following line to center horizontally and vertically */
+    /* transform: translate(-50%, -50%); */
+  }
+
+  /* Style for the name */
+  .name {
+    color: rgb(80, 224, 205); /* Red color for the name */
+    position: relative;
+  }
+
+  /* Style for the line */
+  .line {
+    width: 100%; /* Full width of the container */
+    height: 2px; /* Height of the line */
+    background-color: rgb(80, 224, 205); /* Same color as the name */
+    margin: 20px auto; /* Margin to center the line */
+    position: absolute;
+    bottom: -26px;
+    left: 0;
+  }
+
+  /* Style for the typing container */
+  #typing-container {
+    color: #0cedf5;
+    font-size: 25px; /* Adjust font size */
+    font-weight: bold; /* Bold font */
+    font-family: "Lucida Console", Monaco, monospace; /* Specify Lucida Console font */
+    text-align: center;
+    /* Adjust the following properties to change the position of the typing animation */
+    margin-top: 375px; /* Adjust the vertical position */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-text">RAJ TIWARI</div>
+</div>
+
+<div class="additional-text">
+  Hey There! My Name is <span class="name">Raj Tiwari<span class="line"></span></span>
+</div>
+
+<div id="typing-container" class="additional-text"></div>
+
+<script>
+  const words = ['A Student!', 'Electronic Engineer!', 'Programmer!', 'Satellite Communication!'];
+
+  // Typing animation function
+  function typeText(container, text, delay) {
+    setTimeout(() => {
+      let i = 0;
+      const interval = setInterval(() => {
+        container.innerHTML = text.substring(0, i);
+        i++;
+        if (i > text.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            container.innerHTML = ''; // Clear the text after delay
+          }, 1000);
+        }
+      }, 100); // Typing speed
+    }, delay);
+  }
+
+  // Trigger typing animation for each word
+  const typingContainer = document.getElementById('typing-container');
+  words.forEach((word, index) => {
+    const delay = index * 3000; // Delay before typing next word
+    typeText(typingContainer, word, delay);
+  });
+
+  // Create stars
+  for (let x = 0; x < window.innerWidth; x += 40) {
+    for (let y = 100; y < window.innerHeight; y += 40) {
+      createStar(x, y);
+    }
+  }
+
+  // Function to create a star
+  function createStar(x, y) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.style.left = x + 'px';
+    star.style.top = y + 'px';
+
+    const circle = document.createElement('div');
+    circle.classList.add('circle');
+
+    star.appendChild(circle);
+    document.body.appendChild(star);
+  }
+
+  // Function to move stars on scroll
+  window.addEventListener('scroll', function() {
+    const stars = document.querySelectorAll('.star');
+    const scrollY = window.scrollY;
+    stars.forEach(function(star) {
+      star.style.top = star.offsetTop - scrollY * 0.2 + 'px';
+    });
+  });
+</script>
+
+</body>
+</html>
